@@ -1,11 +1,16 @@
-/*
- * Copyright (C) 2015 Cristian Asenjo
- * License: http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
- */
-var Base64 = require('./base64.js').Base64;
-var http = require('http');
+//var tv = require('./SonyTV');
 
-exports.SonyTV = function (host, controlUrl, pairUrl, clientid, nickname) {
+var tv = require('./SonyTV').SonyTV('192.168.1.111', '/IRCC', '/sony/accessControl', 'CLIENT_ID', 'NICKNAME');
+
+tv.pairRequest();
+//tv.sendCmd('Power Off');
+
+
+
+
+
+//SonyTV.pairRequest('PASSWORD');
+/*var SonyTV = function (host, controlUrl, pairUrl, clientid, nickname) {
 
     var module = {
         host: '',
@@ -109,26 +114,18 @@ exports.SonyTV = function (host, controlUrl, pairUrl, clientid, nickname) {
         'OneTouchView' : 'AAAAAgAAABoAAABlAw==',
         'OneTouchRec' : 'AAAAAgAAABoAAABiAw==',
         'OneTouchRecStop' : 'AAAAAgAAABoAAABjAw==',
-    };
+    }; 
     module.parseCookie = function(headers) {
-        if (headers['set-cookie'] !== undefined) {
-            if(module.regexCookie.test(headers['set-cookie'])) {
-                var regArr = module.regexCookie.exec(headers['set-cookie']);
+        if (headers['Set-Cookie'] !== undefined) {
+            if(module.regexCookie.test(headers['Set-Cookie'])) {
+                var regArr = module.regexCookie.exec(headers['Set-Cookie']);
                 module.authCookie = regArr[1] + ';';
-                module.saveCookieToken(module.authCookie);
+                module.saveCookieToken();
             }
         }
     };
-    module.saveCookieToken = function(cookie) {
-        console.log('saving cookie');
-        var fs = require('fs');
-        fs.writeFile("./cookie", cookie, function(err) {
-            if(err) {
-                return console.log(err);
-            }
-
-            console.log('The cookie was saved');
-        }); 
+    module.saveCookieToken = function() {
+      //replace this function by yours
     };
     module.pairRequest = function(password) {
       var pairBody = '{'+
@@ -138,34 +135,22 @@ exports.SonyTV = function (host, controlUrl, pairUrl, clientid, nickname) {
           '"params":[{"clientid":"' + module.clientid + '","nickname":"' + module.nickname + '"},[{"clientid":"' + module.clientid + '","value":"yes","nickname":"' + module.nickname + '","function":"WOL"}]]' +
         '}';
       var pairHeaders = {
-        'User-Agent' : 'nha-sony/4',
-        'Content-Type': 'application/json',
-        'Content-Length': pairBody.length,
-      };
+          'User-Agent' : 'nha-sony/4',
+          'Content-Type': 'application/json'
+        };
       if (password !== undefined && password !== '') { 
         pairHeaders['Authorization'] = 'Basic ' + Base64.encode(':' + password);
       }
-
-        var options = {
-          host: module.host,
-          path: module.pairUrl,
-          port: 80,
-          method: 'POST',
-          headers: pairHeaders
-        };
-
-        var req = http.request(options, function(res) {
-            module.parseCookie(res.headers);
-        });
-
-        req.on('error', function(e) {
-          console.log('problem with request: ' + e.message);
-        });
-
-        // write data to request body
-        req.write(pairBody);
-        req.end();
-
+      //POST REQUEST HERE
+      // CF.request(module.host + module.pairUrl, 'POST', pairHeaders, pairBody,
+      //   function (status, headers, body) {
+      //       if (status == 200) {
+      //           //CF.log('Pair request response: status:' + status + ' headers: ' + JSON.stringify(headers) + '  body : ' +body);
+      //           module.parseCookie(headers);
+      //       } else {
+      //           coonsole.log('SonyTV(' + module.host + ') error: pair request returned status ' + status);
+      //       }
+      //   });
     };
     module.sendCmd = function (CMD) {
         // Send IRCC command to TV
@@ -186,29 +171,52 @@ exports.SonyTV = function (host, controlUrl, pairUrl, clientid, nickname) {
             cmdHeaders['Cookie'] = module.authCookie;
         }
 
-        var options = {
-          host: module.host,
-          path: module.controlUrl,
-          port: 80,
-          method: 'POST',
-          headers: cmdHeaders
-        };
+        
+        // POST REQUEST HERE
+        
 
-        var req = http.request(options, function(res) {
-            console.log(res.headers);
-        });
-
-        req.on('error', function(e) {
-          console.log('problem with request: ' + e.message);
-        });
-
-        // write data to request body
-        req.write(cmdBody);
-        req.end();
+        // CF.request(module.host + module.controlUrl,
+        //     'POST', cmdHeaders, cmdBody,
+        //     function (status, headers, body) {
+        //         if (status == 200) {
+        //             //CF.log("Form data sent");
+        //         } else {
+        //             CF.log('SonyTV(' + module.host + ') error: sendCmd request returned status ' + status);
+        //         }
+        //     });
     };
-    
     return module;
+
+};*/
+//var tv=SonyTV('http://192.168.1.124', '/IRCC', '/sony/accessControl', 'CLIENT_ID', 'NICKNAME');
+//SonyTV.pairRequest('PASSWORD');
+//tv.SonyTV('http://192.168.1.124', '/IRCC', '/sony/accessControl', 'CLIENT_ID', 'NICKNAME');
+
+
+
+
+
+
+/*
+// pair the TV
+TV.Sony1.pairRequest('PASSWORD');
+
+
+var pairSony1 = function() {
+  CF.getJoin('s1', function(join, value, tokens) {
+    TV.Sony1.pairRequest(value); 
+  });
+  CF.getJoin(CF.GlobalTokensJoin, function(j, v, tokens, tags) {
+    var authCookie = tokens["[authCookie]"]; 
+    if (authCookie !== 0) {
+      TV.Sony1.authCookie = authCookie;
+    }
+  });
 };
 
-
-
+TV.Sony1.saveCookieToken = function() {
+  if (TV.Sony1.authCookie !== '') {
+    CF.setToken(CF.GlobalTokensJoin, "[authCookie]", TV.Sony1.authCookie);
+  }
+};
+*/
