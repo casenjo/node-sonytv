@@ -1,3 +1,5 @@
+Originally from [shabunin](https://github.com/shabunin/cf-sonytv), this fork removes the necessity of CommandFusion so that it can work on any NodeJS application :)
+
 Usage
 =========
 
