@@ -19,13 +19,13 @@ CLIENT_ID is a unique UUID that you should make using uuidgen or similar.
 NICKNAME is the nickname for the device that will be associated with that client ID.
 
 
-After that you'll have to call tv.pairRequest() twice. The first time you call it the TV will show you the pairing PIN.
+After that you'll have to call ```tv.pairRequest()``` twice. The first time you call it the TV will show you the pairing PIN.
 
 The second time you call it, make sure to include the PIN as a parameter of the function, this will allow the auth cookie to be saved for later.
 
 Once that's done you can call the sendCmd with the proper command to send the messages over.
 
-If you want to use an existing cookie, make sure to call ```tv.loadCookieToken()``` before doing the sendCmd() call.
+If you want to use an existing cookie, make sure to call ```tv.loadCookieToken()``` before doing the ```sendCmd()``` call.
 
 
 
