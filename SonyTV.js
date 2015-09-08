@@ -225,6 +225,7 @@ exports.SonyTV = function (host, controlUrl, pairUrl, clientid, nickname) {
         req.end();
     };
     module.powerOn = function (mac) {
+        console.log('node-sonytv::SonyTV: Power On command sent...');
         if (mac !== undefined && mac !== '') { 
             wol.wake(mac);
             return true;
