@@ -173,11 +173,12 @@ exports.SonyTV = function (host, controlUrl, pairUrl, clientid, nickname) {
         };
 
         var req = http.request(options, function(res) {
+            console.log('node-sonytv::SonyTV: pairRequest sent...');
             module.parseCookie(res.headers);
         });
 
         req.on('error', function(e) {
-          console.log('problem with request: ' + e.message);
+          console.log('node-sonytv::SonyTV: ' + 'Problem with pairRequest request: ' + e.message);
         });
 
         // write data to request body
@@ -211,11 +212,11 @@ exports.SonyTV = function (host, controlUrl, pairUrl, clientid, nickname) {
         };
 
         var req = http.request(options, function(res) {
-            console.log(res.headers);
+            console.log('node-sonytv::SonyTV: ' + CMD + ' command sent...');
         });
 
         req.on('error', function(e) {
-          console.log('problem with request: ' + e.message);
+          console.log('node-sonytv::SonyTV: ' + 'Problem with sendCmd request: ' + e.message);
         });
 
         // write data to request body
