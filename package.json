@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/casenjo/node-sonytv/issues"
   },
-  "homepage": "https://github.com/casenjo/node-sonytv#readme"
+  "homepage": "https://github.com/casenjo/node-sonytv#readme",
+  "dependencies": {
+    "wake_on_lan": "0.0.4"
+  }
 }
