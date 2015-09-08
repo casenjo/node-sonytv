@@ -168,19 +168,17 @@ exports.SonyTV = function (host, controlUrl, pairUrl, clientid, nickname) {
 
     };
     module.sendCmd = function (CMD) {
+
         // Send IRCC command to TV
-        var cmdBody = '<?xml version="1.0"?>' +
-        '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">' +
-        '<SOAP-ENV:Body>' + '<m:X_SendIRCC xmlns:m="urn:schemas-sony-com:service:IRCC:1">' +
-        '<IRCCCode xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="string">' +
-            module.IRCC[CMD] +
-        '</IRCCCode>' +
-        '</m:X_SendIRCC>' +
-        '</SOAP-ENV:Body>' +
-        '</SOAP-ENV:Envelope>';
+        var cmdBody = '<?xml version="1.0"?>' + 
+        '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">' + 
+        '<s:Body><u:X_SendIRCC xmlns:u="urn:schemas-sony-com:service:IRCC:1">' + 
+        '<IRCCCode>' + 
+        module.IRCC[CMD] + 
+        '</IRCCCode></u:X_SendIRCC></s:Body></s:Envelope>';
+
         var cmdHeaders = {
-            'Content-Type': 'text/xml; charset=utf-8',
-            'SOAPAction': '"urn:schemas-sony-com:service:IRCC:1#X_SendIRCC"'
+            'Content-Type': 'text/xml; charset=UTF-8',
         };
         if (module.authCookie !== '') {
             cmdHeaders['Cookie'] = module.authCookie;
