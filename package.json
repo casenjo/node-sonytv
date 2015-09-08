@@ -1,0 +1,27 @@
+{
+  "name": "node-sonytv",
+  "version": "1.0.0",
+  "description": "Adaptation of Shabunin's CommandFusion module for Sony Smart TVs to work in Node",
+  "main": "SonyTV.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/casenjo/node-sonytv.git"
+  },
+  "keywords": [
+    "bravia",
+    "sony",
+    "sony",
+    "tv",
+    "sony",
+    "smarttv"
+  ],
+  "author": "Cristian Asenjo",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/casenjo/node-sonytv/issues"
+  },
+  "homepage": "https://github.com/casenjo/node-sonytv#readme"
+}
