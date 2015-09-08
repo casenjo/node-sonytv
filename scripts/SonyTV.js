@@ -4,6 +4,7 @@
  */
 var Base64 = require('./base64.js').Base64;
 var http = require('http');
+var fs = require('fs');
 
 exports.SonyTV = function (host, controlUrl, pairUrl, clientid, nickname) {
 
@@ -113,22 +114,39 @@ exports.SonyTV = function (host, controlUrl, pairUrl, clientid, nickname) {
     module.parseCookie = function(headers) {
         if (headers['set-cookie'] !== undefined) {
             if(module.regexCookie.test(headers['set-cookie'])) {
+                console.log('node-sonytv::SonyTV: Parsing cookie');
                 var regArr = module.regexCookie.exec(headers['set-cookie']);
-                module.authCookie = regArr[1] + ';';
+                module.authCookie = regArr[1];
                 module.saveCookieToken(module.authCookie);
             }
         }
     };
     module.saveCookieToken = function(cookie) {
-        console.log('saving cookie');
-        var fs = require('fs');
-        fs.writeFile("./cookie", cookie, function(err) {
+        var data = {
+            Cookie: cookie
+        };
+        fs.writeFile("./cookie", JSON.stringify(data), function(err) {
             if(err) {
-                return console.log(err);
+                return console.log('node-sonytv::SonyTV: Error saving cookie - ' + err);
             }
+            console.log('node-sonytv::SonyTV: The cookie was saved');
+            console.log('node-sonytv::SonyTV: Cookie saved as ' + cookie);
+        });
+    };
+    module.loadCookieToken = function() {
+        var data = fs.readFileSync('./cookie'), cookieObj;
 
-            console.log('The cookie was saved');
-        }); 
+        try {
+            cookieObj = JSON.parse(data);
+            module.authCookie = cookieObj.Cookie;
+            console.log('node-sonytv::SonyTV: Cookie loaded as ' + cookieObj.Cookie);
+        }
+        catch (err) {
+            console.log('node-sonytv::SonyTV: pairRequest sent...');
+            console.log('node-sonytv::SonyTV: Error parsing JSON from cookie. Was the TV paired?');
+            console.log('node-sonytv::SonyTV: ' + err);
+        }
+
     };
     module.pairRequest = function(password) {
       var pairBody = '{'+
