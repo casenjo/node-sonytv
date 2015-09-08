@@ -1,21 +1,36 @@
 Originally from [shabunin](https://github.com/shabunin/cf-sonytv), this fork removes the necessity of CommandFusion so that it can work on any NodeJS application :)
 
+
 Usage
 =========
 
-Added module.pairRequest(password) function. The pairing procces: first you send pair request without password and password will be shown on tv screen, then send pair request again but with password. In this gui input password in text box with s1 join.
+Declare a new tv var
 
+```javascript
+var tv = require('./SonyTV').SonyTV('TV_IP_OR_HOST_HERE', 'URL_CONTROL', 'URL_PAIR', 'CLIENT_ID', 'NICKNAME');
+```
+
+URL_CONTROL is usually '/sony/IRCC' or just '/IRCC'. If you find out others let me know!
+
+URL_PAIR is '/sony/accessControl'. This was left as a parameter just in case other SonyTVs have different ones.
+
+CLIENT_ID is a unique UUID that you should make using uuidgen or similar.
+
+NICKNAME is the nickname for the device that will be associated with that client ID.
+
+
+After that you'll have to call tv.pairRequest() twice. The first time you call it the TV will show you the pairing PIN.
+
+The second time you call it, make sure to include the PIN as a parameter of the function, this will allow the auth cookie to be saved for later.
+
+Once that's done you can call the sendCmd with the proper command to send the messages over.
+
+If you want to use an existing cookie, make sure to call ```tv.loadCookieToken()``` before doing the sendCmd() call.
+
+
+
+List of tested commands
 ==========
-
-There's three files in forder "scripts".
-First - SonyTV.js describes our module for multiple instances.
-Second - userMain.js shows how to declare module for specific tv.
-Three parameters required for declaration. First - host, second controlUrl of IRCC service. You can try 'IP/IRCC' or 'IP/sony/IRCC'. If it won't work you can look upnp description of your tv and there will be controlURL for IRCC. Third - url for pairing /sony/accessControl. 
-
-Then after you declare your tv you can control it by adding JavaScript commands 'your instance'.sendCmd('cmdName')
-
-List of tested commands:
-=========
 
  Analog,
  Audio,
@@ -66,7 +81,7 @@ List of tested commands:
  HDMI3,
  HDMI4
 
-List of no tested commands:
+List of untested commands:
 =========
 Replay,
 Advance,
