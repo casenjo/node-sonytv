@@ -75,6 +75,7 @@ exports.SonyTV = function (host, controlUrl, pairUrl, clientid, nickname) {
         'HDMI2': 'AAAAAgAAABoAAABbAw==',
         'HDMI3': 'AAAAAgAAABoAAABcAw==',
         'HDMI4': 'AAAAAgAAABoAAABdAw==',
+        'Netflix': 'AAAAAgAAABoAAAB8Aw==',
         
         //not tested:
         'Replay': 'AAAAAgAAAJcAAAB5Aw==',
