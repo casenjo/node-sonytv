@@ -5,6 +5,7 @@
 var Base64 = require('./base64.js').Base64;
 var http = require('http');
 var fs = require('fs');
+var wol = require('wake_on_lan');
 
 exports.SonyTV = function (host, controlUrl, pairUrl, clientid, nickname) {
 
@@ -223,6 +224,13 @@ exports.SonyTV = function (host, controlUrl, pairUrl, clientid, nickname) {
         req.write(cmdBody);
         req.end();
     };
+    module.powerOn = function (mac) {
+        if (mac !== undefined && mac !== '') { 
+            wol.wake(mac);
+            return true;
+        }
+        return false;
+    }
     
     return module;
 };
